@@ -69,3 +69,4 @@ complete_data2$ISO <- countrycode(complete_data2$Country.Name,
                             destination = "iso3c")
 
 complete_data2 <- subset(complete_data2, select = -Country.Name)
+
