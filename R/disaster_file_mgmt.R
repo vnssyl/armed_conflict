@@ -1,14 +1,20 @@
 library(tidyverse)
 library(here)
-raw_data <- read.csv(here('original','disaster.csv'),header=TRUE)
 
-clean_data <- filter(raw_data, Year >= 2000 & Year <= 2019,
+# Load dataset 
+disaster_raw <- read.csv(here('original','disaster.csv'),header=TRUE)
+
+# Filter by year and disaster type
+disaster_clean <- filter(disaster_raw, Year >= 2000 & Year <= 2019,
                      Disaster.Type== "Earthquake" | Disaster.Type == "Drought")
 
-clean_data <- clean_data %>% 
+# Select variables
+disaster_clean <- disaster_clean %>% 
   select("Year","ISO","Disaster.Type")
 
-clean_data$earthquake <- ifelse(clean_data$Disaster.Type=="Earthquake",1,0)
-clean_data$drought <- ifelse(clean_data$Disaster.Type == "Drought",1,0)
+# Create dummy var for earthquake and drought
+disaster_clean$earthquake <- ifelse(disaster_clean$Disaster.Type=="Earthquake",1,0)
+disaster_clean$drought <- ifelse(disaster_clean$Disaster.Type == "Drought",1,0)
 
-write.csv(clean_data,here('data','disaster_clean.csv'))
+# Write CSV file
+write.csv(disaster_clean,here('data','disaster_clean.csv'))

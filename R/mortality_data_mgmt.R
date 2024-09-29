@@ -1,8 +1,8 @@
 library(tidyverse)
 library(here)
 
-raw_data <- read.csv(here('original','maternalmortality.csv'),header=TRUE)
-clean_maternal<- select(raw_data,c('Country.Name','X2000','X2001','X2002','X2003',
+maternal_raw <- read.csv(here('original','maternalmortality.csv'),header=TRUE)
+clean_maternal<- select(maternal_raw,c('Country.Name','X2000','X2001','X2002','X2003',
                                 'X2004','X2005','X2006','X2007','X2008','X2009',
                                 'X2010','X2011','X2012','X2013','X2014','X2015',
                                 'X2016','X2017','X2018','X2019'))
@@ -57,16 +57,17 @@ clean_under5 <- prep_data("under5mortality.csv","under5mortality_clean.csv",
 
 # join datasets
 
-complete_data <- full_join(clean_maternal,clean_infant, by=c("Country.Name","Year"))
-complete_data1 <- full_join(complete_data,clean_neonatal, by=c("Country.Name","Year"))
-complete_data2 <- full_join(complete_data1,clean_under5, by=c("Country.Name","Year"))
+mor_clean <- full_join(clean_maternal,clean_infant, by=c("Country.Name","Year"))
+mor_clean <- full_join(mor_clean,clean_neonatal, by=c("Country.Name","Year"))
+mor_clean <- full_join(mor_clean,clean_under5, by=c("Country.Name","Year"))
 
 # add country codes
 
 library(countrycode)
-complete_data2$ISO <- countrycode(complete_data2$Country.Name,
+mor_clean$ISO <- countrycode(mor_clean$Country.Name,
                             origin = "country.name",
                             destination = "iso3c")
 
-complete_data2 <- subset(complete_data2, select = -Country.Name)
+mor_clean <- subset(mor_clean, select = -Country.Name)
 
+write.csv(mor_clean,here('data', "mortality_clean.csv"))
