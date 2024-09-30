@@ -20,7 +20,7 @@ final_dataset <- list(conflict_cleaned, disaster_clean, mor_clean,
                       covariates) %>% reduce(left_join, by = keys)
 
 # fill NAs for 'earthquake','drought', and 'armconf1'
-final_dataset %>%
+final_dataset<- final_dataset %>%
   replace_na(list(earthquake=0, drought=0, armconf1=0))
 
 # verify 20 obs per country
