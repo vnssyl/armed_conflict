@@ -21,4 +21,3 @@ final_dataset <- list(conflict_cleaned, disaster_clean, mor_clean,
 
 # verify 20 obs per country
 table(final_dataset$ISO)
-## not right, some yrs+countries r duplicated i.e. AFG 2015
