@@ -17,7 +17,10 @@ mor_clean$Year <- as.integer(mor_clean$Year)
 # join data
 keys <- c("Year","ISO")
 final_dataset <- list(conflict_cleaned, disaster_clean, mor_clean, 
-                      covariates) %>% reduce(full_join, by = keys)
+                      covariates) %>% reduce(left_join, by = keys)
 
 # verify 20 obs per country
 table(final_dataset$ISO)
+
+
+write.csv(final_dataset,here("data","final_dataset.csv"))
